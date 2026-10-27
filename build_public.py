@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """kakomon.actabit.net 用の暗号化データを作る。
-usage: KAKOMON_PASSWORD='...' python3 -I build_public.py --questions questions.jsonl [--record 臨床心理系入試問題_収集記録.json] --out dist/
+usage: KAKOMON_PASSWORD='...' [KAKOMON_SALT_HEX=...] python3 -I build_public.py --questions questions.jsonl [--record 臨床心理系入試問題_収集記録.json] --out dist/
 出力: dist/data.bin（AES-256-GCM, 鍵 = PBKDF2-SHA256(password, salt, ITER)）, dist/info.json（件数など非機密）
 data.bin の形式: b"KKM1" + salt(16) + iter(uint32 BE) + iv(12) + ciphertext(gzip(JSON))+tag
 """
@@ -38,6 +38,8 @@ if os.path.exists(prev):                      # 同じソルトを使い回し�
     with open(prev, 'rb') as f:
         h = f.read(20)
     if h[:4] == b'KKM1': salt = h[4:20]
+if os.environ.get('KAKOMON_SALT_HEX'):          # 明示指定があれば最優先（月次更新で同じソルトを使う）
+    salt = bytes.fromhex(os.environ['KAKOMON_SALT_HEX'])
 salt = salt or os.urandom(16); iv = os.urandom(12)
 key = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=salt, iterations=ITER).derive(pw.encode('utf-8'))
 ct = AESGCM(key).encrypt(iv, payload, b'KKM1')
