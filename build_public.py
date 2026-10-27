@@ -4,7 +4,7 @@ usage: KAKOMON_PASSWORD='...' [KAKOMON_SALT_HEX=...] python3 -I build_public.py 
 出力: dist/data.bin（AES-256-GCM, 鍵 = PBKDF2-SHA256(password, salt, ITER)）, dist/info.json（件数など非機密）
 data.bin の形式: b"KKM1" + salt(16) + iter(uint32 BE) + iv(12) + ciphertext(gzip(JSON))+tag
 """
-import argparse, gzip, json, os, struct, datetime, collections
+import argparse, gzip, json, os, struct, datetime, collections, hashlib
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.primitives import hashes
@@ -29,7 +29,8 @@ for line in open(a.questions, encoding='utf-8'):
     s = src.get(r.get('file_id'), {})
     o['pdf'] = s.get('pdf', ''); o['page'] = s.get('page', '')
     Q.append(o)
-info = {'updated': datetime.date.today().isoformat(), 'n_records': len(Q), 'n_universities': len({q['univ'] for q in Q}),
+content_sha = hashlib.sha256(json.dumps(Q, ensure_ascii=False, sort_keys=True).encode('utf-8')).hexdigest()[:16]
+info = {'updated': datetime.date.today().isoformat(), 'content_sha': content_sha, 'n_records': len(Q), 'n_universities': len({q['univ'] for q in Q}),
         'n_official': sum(1 for q in Q if q['official']), 'n_with_link': sum(1 for q in Q if q['pdf'])}
 payload = gzip.compress(json.dumps({'info': info, 'q': Q}, ensure_ascii=False, separators=(',', ':')).encode('utf-8'), 9)
 prev = os.path.join(a.out, 'data.bin')
