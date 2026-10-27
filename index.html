@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>心理院試 過去問索引</title>
+<meta name="description" content="心理学系大学院の入試過去問を、分野・形式・大学・キーワードで横断検索できる会員向け索引。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='10' y='6' width='44' height='52' rx='4' fill='%231c2742'/%3E%3Cpath d='M18 20h28M18 30h28M18 40h18' stroke='%23fff' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='46' cy='46' r='9' fill='%23b8432d'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: 答案用紙の罫線モチーフ。ログインは試験問題の表紙、本体は左に分野・右に問題カードの二段組（狭い画面では一段） */
+:root {
+  --paper: #f6f7f9; --sheet: #ffffff; --ink: #1c2742; --ink-soft: #55607a;
+  --rule: #d5dcea; --rule-strong: #aab6cf; --seal: #b8432d; --seal-bg: #fbeeea;
+  --chip: #e9edf5; --focus: #2f5fd0; --error: #b3261e;
+  --mincho: "Shippori Mincho", "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", serif;
+  --gothic: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", "Noto Sans JP", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #12161f; --sheet: #1a2030; --ink: #e4e8f2; --ink-soft: #a3acc2; --rule: #2c3550; --rule-strong: #46527a;
+    --seal: #ee7a63; --seal-bg: #3a221e; --chip: #252d42; --focus: #8fb0ff; --error: #ff8a80; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #12161f; --sheet: #1a2030; --ink: #e4e8f2; --ink-soft: #a3acc2; --rule: #2c3550; --rule-strong: #46527a;
+  --seal: #ee7a63; --seal-bg: #3a221e; --chip: #252d42; --focus: #8fb0ff; --error: #ff8a80; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--paper); color: var(--ink); font-family: var(--gothic); font-size: 15px; line-height: 1.7;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: env(safe-area-inset-top, 0px) calc(32px + env(safe-area-inset-bottom, 0px));
+}
+[hidden] { display: none !important; }
+a { color: var(--focus); }
+.wrap { max-width: 1180px; margin: 0 auto; }
+button, input, select { font: inherit; }
+:is(input, select, button, a, summary):focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* ---------- ログイン（試験問題の表紙） ---------- */
+#login { min-height: calc(100vh - 80px); display: grid; place-items: center; padding-block: 32px; }
+.cover { width: min(100%, 520px); background: var(--sheet); border: 1.5px solid var(--ink); padding: 32px clamp(20px, 5vw, 40px) 28px; display: grid; gap: 18px; }
+.cover .eyebrow { font-size: 12px; letter-spacing: .16em; color: var(--ink-soft); }
+.cover h1 { font-family: var(--mincho); font-weight: 700; font-size: clamp(28px, 6vw, 36px); line-height: 1.25; margin: 0; text-wrap: balance; }
+.cover .lead { margin: 0; font-size: 14px; color: var(--ink-soft); }
+.cover .stats { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13px; color: var(--ink-soft); font-variant-numeric: tabular-nums; border-block: 1px solid var(--rule); padding-block: 8px; }
+.cover .stats b { color: var(--ink); }
+.cover form { display: grid; gap: 10px; }
+.cover label.pw { font-size: 13px; letter-spacing: .08em; color: var(--ink-soft); }
+.pwbox { display: grid; grid-template-columns: auto minmax(0, 1fr); border: 1.5px solid var(--ink); }
+.pwbox span { font-size: 13px; padding: 10px 12px; border-right: 1.5px solid var(--ink); background: var(--chip); white-space: nowrap; display: grid; place-items: center; }
+.pwbox input { border: 0; padding: 12px 14px; font-size: 17px; font-family: var(--mono); letter-spacing: .04em; background: var(--sheet); color: var(--ink); min-width: 0; }
+.row { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+label.keep { display: inline-flex; gap: 6px; align-items: center; font-size: 13.5px; cursor: pointer; }
+.primary { border: 0; background: var(--ink); color: var(--sheet); padding: 11px 26px; font-weight: 700; letter-spacing: .1em; cursor: pointer; }
+.primary[disabled] { opacity: .6; cursor: progress; }
+.err { color: var(--error); font-size: 13.5px; min-height: 1.4em; margin: 0; }
+.cover .fine { font-size: 12px; color: var(--ink-soft); margin: 0; }
+
+/* ---------- 本体 ---------- */
+header.top { padding-block: 22px 16px; border-bottom: 2px solid var(--ink); display: grid; gap: 6px; }
+.topline { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.eyebrow { font-size: 12px; letter-spacing: .14em; color: var(--ink-soft); }
+header.top h1 { font-family: var(--mincho); font-weight: 700; font-size: clamp(24px, 4vw, 34px); line-height: 1.25; margin: 0; text-wrap: balance; }
+.ghost { border: 1px solid var(--rule-strong); background: transparent; color: var(--ink); padding: 3px 12px; border-radius: 4px; font-size: 13px; cursor: pointer; }
+.meta { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 13px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.meta b { color: var(--ink); font-weight: 700; }
+
+.searchbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--paper); padding-block: 14px; border-bottom: 1px solid var(--rule); display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--paper); }
+#q { flex: 1 1 320px; min-width: 0; font-size: 16px; padding: 10px 14px; border: 1.5px solid var(--rule-strong); border-radius: 6px; background: var(--sheet); color: var(--ink); }
+select { font-size: 14px; padding: 9px 10px; border: 1.5px solid var(--rule-strong); border-radius: 6px; background: var(--sheet); color: var(--ink); max-width: 100%; }
+label.toggle { display: inline-flex; gap: 6px; align-items: center; font-size: 14px; cursor: pointer; user-select: none; }
+.examples { display: flex; flex-wrap: wrap; gap: 6px; font-size: 13px; color: var(--ink-soft); align-items: center; width: 100%; }
+.examples button { font-size: 13px; border: 1px dashed var(--rule-strong); background: transparent; color: var(--ink); border-radius: 999px; padding: 2px 10px; cursor: pointer; }
+.examples button:hover { border-style: solid; }
+
+.layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 28px; margin-top: 18px; }
+aside h2 { font-size: 12px; letter-spacing: .14em; color: var(--ink-soft); font-weight: 500; margin: 0 0 8px; }
+.fields { display: grid; gap: 2px; }
+.fields button { font-size: 14px; text-align: left; display: flex; justify-content: space-between; gap: 8px; border: 0; background: transparent; color: var(--ink); padding: 5px 8px; border-radius: 5px; cursor: pointer; }
+.fields button:hover { background: var(--chip); }
+.fields button[aria-pressed="true"] { background: var(--ink); color: var(--sheet); }
+.fields .n { font-family: var(--mono); font-size: 12px; opacity: .75; font-variant-numeric: tabular-nums; }
+@media (max-width: 820px) {
+  .layout { grid-template-columns: minmax(0, 1fr); }
+  .fields { display: flex; overflow-x: auto; gap: 6px; padding-bottom: 6px; }
+  .fields button { flex: 0 0 auto; border: 1px solid var(--rule-strong); }
+  .searchbar { position: static; }
+}
+
+.status { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: 13px; color: var(--ink-soft); padding-bottom: 8px; border-bottom: 1px solid var(--rule); }
+.status b { color: var(--ink); font-variant-numeric: tabular-nums; }
+article.q { padding-block: 18px; border-bottom: 1px solid var(--rule); display: grid; gap: 8px; min-width: 0; }
+.src { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; font-size: 13px; color: var(--ink-soft); }
+.src .univ { font-weight: 700; color: var(--ink); font-size: 14.5px; }
+.src .qno { font-family: var(--mono); font-size: 12.5px; background: var(--chip); color: var(--ink); padding: 0 6px; border-radius: 3px; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { font-size: 12px; border: 1px solid var(--rule-strong); border-radius: 3px; padding: 0 7px; color: var(--ink-soft); }
+.tag.seal { border-color: var(--seal); color: var(--seal); background: var(--seal-bg); font-weight: 700; }
+.text { font-family: var(--mincho); font-size: 16px; line-height: 1.95; white-space: pre-wrap; overflow-wrap: anywhere; margin: 0;
+  background-image: linear-gradient(to bottom, transparent calc(1.95em - 1px), var(--rule) calc(1.95em - 1px)); background-size: 100% 1.95em; background-position: 0 -0.25em; }
+details { font-size: 14px; }
+details summary { cursor: pointer; color: var(--ink-soft); width: fit-content; }
+details .body { margin-top: 6px; padding: 10px 12px; border-left: 3px solid var(--seal); background: var(--sheet); white-space: pre-wrap; overflow-wrap: anywhere; }
+details.choices .body { border-left-color: var(--rule-strong); }
+.foot { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12.5px; color: var(--ink-soft); align-items: center; }
+.foot .id { font-family: var(--mono); font-size: 11.5px; }
+.copy { font-size: 12.5px; border: 1px solid var(--rule-strong); background: var(--sheet); color: var(--ink); border-radius: 4px; padding: 0 8px; cursor: pointer; }
+.more { margin: 22px auto 0; display: block; font-size: 14px; padding: 9px 22px; border: 1.5px solid var(--ink); background: transparent; color: var(--ink); border-radius: 6px; cursor: pointer; }
+.empty { padding: 40px 0; color: var(--ink-soft); }
+mark { background: color-mix(in srgb, var(--seal) 22%, transparent); color: inherit; padding: 0 1px; border-radius: 2px; }
+
+footer.site { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--rule); font-size: 12.5px; color: var(--ink-soft); display: grid; gap: 4px; }
+footer.site p { margin: 0; max-width: 80ch; }
+</style>
+</head>
+<body>
+
+<section id="login" aria-labelledby="login-title">
+  <div class="cover">
+    <div class="eyebrow">心理学系大学院 入学試験 ／ 過去問題 索引</div>
+    <h1 id="login-title">心理院試 過去問索引</h1>
+    <p class="lead">全国の心理学系大学院の入試問題を、分野・形式・大学・キーワードで横断検索できます。閲覧には会員パスワードが必要です。</p>
+    <div class="stats" id="stats"><span>収録データを確認しています…</span></div>
+    <form id="loginForm" autocomplete="on">
+      <label class="pw" for="pw">パスワードを入力してください</label>
+      <div class="pwbox"><span>パスワード</span><input id="pw" name="password" type="password" autocomplete="current-password" required></div>
+      <div class="row">
+        <label class="keep"><input type="checkbox" id="keep" checked> この端末でログイン状態を保つ</label>
+        <button class="primary" id="enter" type="submit">ログイン</button>
+      </div>
+      <p class="err" id="err" role="alert"></p>
+    </form>
+    <p class="fine">パスワードがわからない場合は、配布元にお問い合わせください。</p>
+  </div>
+</section>
+
+<div class="wrap" id="app" hidden>
+  <header class="top">
+    <div class="topline"><div class="eyebrow">心理学系大学院 入試問題 ／ 問題単位の索引</div><button class="ghost" id="logout" type="button">ログアウト</button></div>
+    <h1>心理院試 過去問索引</h1>
+    <div class="meta" id="meta"></div>
+  </header>
+
+  <div class="searchbar" role="search">
+    <input id="q" type="search" placeholder="例：愛着　守秘義務　t検定　投影法（スペース区切りで複数語）" autocomplete="off" aria-label="キーワード">
+    <select id="qtype" aria-label="出題形式"><option value="">形式：すべて</option></select>
+    <select id="univ" aria-label="大学"><option value="">大学：すべて</option></select>
+    <label class="toggle"><input type="checkbox" id="official"> 公式解答・出題意図あり</label>
+    <div class="examples" id="examples">試す：</div>
+  </div>
+
+  <div class="layout">
+    <aside>
+      <h2>分野</h2>
+      <div class="fields" id="fields"></div>
+    </aside>
+    <main>
+      <div class="status"><span id="count"></span><span id="sortnote"></span></div>
+      <div id="list"></div>
+      <button class="more" id="more" type="button" hidden>さらに表示</button>
+    </main>
+  </div>
+
+  <footer class="site">
+    <p>収録しているのは、各大学が公表している入試問題・解答例・出題意図です。問題の著作権は各大学に帰属します。著作権の都合で大学が本文を公開していない英文などは、設問と出典のみ掲載しています。</p>
+    <p>収録内容の誤りや掲載に関するご連絡は <a href="https://actabit.net/contact.html" target="_blank" rel="noopener">お問い合わせ</a> から。運営：<a href="https://actabit.net/company.html" target="_blank" rel="noopener">WowCraft株式会社</a></p>
+  </footer>
+</div>
+
+<script>
+"use strict";
+const FIELD_LABEL = {
+  "臨床_理論技法": "臨床：理論・技法", "臨床_アセスメント": "臨床：アセスメント", "臨床_精神疾患障害": "臨床：精神疾患・障害",
+  "臨床_事例支援": "臨床：事例・支援", "臨床_法規倫理": "臨床：法規・倫理", "発達": "発達", "教育学校": "教育・学校",
+  "認知": "認知", "学習行動": "学習・行動", "社会": "社会", "人格感情": "人格・感情", "生理神経": "生理・神経",
+  "統計研究法": "統計・研究法", "英語": "英語", "総合その他": "総合・その他"
+};
+const FIELD_ORDER = Object.keys(FIELD_LABEL);
+const EXAMPLES = ["愛着 アタッチメント", "守秘義務", "t検定 分散分析", "投影法 ロールシャッハ", "ワーキングメモリ", "認知行動療法", "不登校", "事例"];
+const PAGE = 40, KEY_STORE = "kkm.key.v1";
+let R = [], INFO = {}, view = [], shown = 0, field = "", BUF = null;
+const $ = s => document.querySelector(s);
+const norm = s => (s || "").normalize("NFKC").toLowerCase().replace(/[\s・\-ー－]/g, "");
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const te = new TextEncoder();
+const b64 = u8 => btoa(String.fromCharCode(...u8));
+const unb64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+const store = {
+  get() { try { return localStorage.getItem(KEY_STORE); } catch { return null; } },
+  set(v) { try { localStorage.setItem(KEY_STORE, v); } catch {} },
+  del() { try { localStorage.removeItem(KEY_STORE); } catch {} }
+};
+
+/* ---------- 暗号化データ ---------- */
+function parseBundle(buf) {
+  const u8 = new Uint8Array(buf);
+  if (String.fromCharCode(...u8.slice(0, 4)) !== "KKM1") throw new Error("データ形式が違います");
+  const iter = new DataView(buf).getUint32(20);
+  return { salt: u8.slice(4, 20), iter, iv: u8.slice(24, 36), ct: u8.slice(36) };
+}
+async function deriveKey(pw, b) {
+  const base = await crypto.subtle.importKey("raw", te.encode(pw), "PBKDF2", false, ["deriveKey"]);
+  return crypto.subtle.deriveKey({ name: "PBKDF2", salt: b.salt, iterations: b.iter, hash: "SHA-256" }, base, { name: "AES-GCM", length: 256 }, true, ["decrypt"]);
+}
+async function openWith(key, b) {
+  const plain = await crypto.subtle.decrypt({ name: "AES-GCM", iv: b.iv, additionalData: te.encode("KKM1") }, key, b.ct);
+  const stream = new Blob([plain]).stream().pipeThrough(new DecompressionStream("gzip"));
+  return JSON.parse(await new Response(stream).text());
+}
+async function loadBundle() {
+  if (BUF) return BUF;
+  const res = await fetch("data.bin", { cache: "no-cache" });
+  if (!res.ok) throw new Error("データを取得できませんでした（" + res.status + "）");
+  BUF = parseBundle(await res.arrayBuffer());
+  return BUF;
+}
+
+/* ---------- ログイン ---------- */
+async function tryStoredKey() {
+  const raw = store.get(); if (!raw) return false;
+  try {
+    const b = await loadBundle();
+    const key = await crypto.subtle.importKey("raw", unb64(raw), { name: "AES-GCM" }, false, ["decrypt"]);
+    start(await openWith(key, b));
+    return true;
+  } catch { store.del(); return false; }
+}
+$("#loginForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const pw = $("#pw").value; if (!pw) return;
+  $("#enter").disabled = true; $("#enter").textContent = "確認中…"; $("#err").textContent = "";
+  try {
+    const b = await loadBundle();
+    const key = await deriveKey(pw, b);
+    let data;
+    try { data = await openWith(key, b); }
+    catch { throw new Error("パスワードが違います。もう一度入力してください。"); }
+    if ($("#keep").checked) store.set(b64(new Uint8Array(await crypto.subtle.exportKey("raw", key))));
+    $("#pw").value = "";
+    start(data);
+  } catch (err) {
+    $("#err").textContent = err.message || String(err);
+  } finally {
+    $("#enter").disabled = false; $("#enter").textContent = "ログイン";
+  }
+});
+$("#logout").addEventListener("click", () => {
+  store.del(); R = []; $("#app").hidden = true; $("#login").hidden = false; $("#list").innerHTML = ""; $("#pw").focus();
+});
+
+/* ---------- 検索・表示 ---------- */
+function highlight(text, terms) {
+  let h = esc(text);
+  for (const t of terms) {
+    if (!t.raw || t.raw.length < 2) continue;
+    const re = new RegExp(esc(t.raw).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi");
+    h = h.replace(re, m => `<mark>${m}</mark>`);
+  }
+  return h;
+}
+function score(r, terms) {
+  let s = 0, hits = 0;
+  for (const t of terms) {
+    let sc = 0;
+    if (r._kw.some(k => k === t.n)) sc = 5;
+    else if (r._kw.some(k => k.includes(t.n) || (k.length >= 2 && t.n.includes(k)))) sc = 3;
+    if (r._tx.includes(t.n)) sc += 3; else if (r._ot.includes(t.n)) sc += 1;
+    if (sc) hits++;
+    s += sc;
+  }
+  if (!s) return 0;
+  s += 2 * Math.max(0, hits - 1);
+  if (r.text.length < 140) s += 3;
+  return s;
+}
+function run() {
+  const raw = $("#q").value.trim();
+  const terms = raw.split(/[\s　]+/).filter(Boolean).map(x => ({ raw: x, n: norm(x) })).filter(t => t.n);
+  const qt = $("#qtype").value, un = $("#univ").value, off = $("#official").checked;
+  const scored = [];
+  for (const r of R) {
+    if ((qt && r.qtype !== qt) || (un && r.univ !== un) || (off && !r.official)) continue;
+    const s = terms.length ? score(r, terms) : 1;
+    if (s) scored.push([s, r]);
+  }
+  const counts = {};
+  for (const [, r] of scored) counts[r.field] = (counts[r.field] || 0) + 1;
+  renderFields(counts, scored.length);
+  view = scored.filter(([, r]) => !field || r.field === field || r.field2 === field);
+  if (terms.length) view.sort((a, b) => b[0] - a[0] || b[1].year.localeCompare(a[1].year));
+  else view.sort((a, b) => b[1].year.localeCompare(a[1].year) || a[1].univ.localeCompare(b[1].univ, "ja"));
+  $("#count").innerHTML = `<b>${view.length.toLocaleString()}</b> 問${terms.length ? "が該当" : ""}`;
+  $("#sortnote").textContent = terms.length ? "関連度の高い順" : "新しい年度から";
+  shown = 0; $("#list").innerHTML = ""; window._terms = terms;
+  if (!view.length) $("#list").innerHTML = `<div class="empty">該当する問題がありません。言い換え（例：愛着→アタッチメント）や英語の用語でも試してください。</div>`;
+  more();
+}
+function card(r, terms) {
+  const tags = [`<span class="tag">${esc(FIELD_LABEL[r.field] || r.field)}</span>`, `<span class="tag">${esc(r.qtype)}</span>`];
+  if (r.field2 && FIELD_LABEL[r.field2]) tags.push(`<span class="tag">${esc(FIELD_LABEL[r.field2])}</span>`);
+  if (r.official) tags.push(`<span class="tag seal">公式${esc(r.official_type || "資料")}</span>`);
+  if (r.points) tags.push(`<span class="tag">${esc(r.points)}</span>`);
+  const links = [];
+  if (r.pdf) links.push(`<a href="${esc(r.pdf)}" target="_blank" rel="noopener">大学公式のPDF</a>`);
+  if (r.page) links.push(`<a href="${esc(r.page)}" target="_blank" rel="noopener">掲載ページ</a>`);
+  return `<article class="q">
+    <div class="src"><span class="univ">${esc(r.univ)}</span><span>${esc(r.school)}</span><span>${esc(r.year)} ${esc(r.course)}</span>${r.held && r.held !== "実施年度未確認" ? `<span>${esc(r.held)}</span>` : ""}<span>${esc(r.session)}</span><span>${esc(r.subject)}</span><span class="qno">${esc(r.qno)}</span></div>
+    <div class="tags">${tags.join("")}</div>
+    <p class="text">${highlight(r.text, terms)}</p>
+    ${r.choices ? `<details class="choices"><summary>選択肢・語群</summary><div class="body">${esc(r.choices)}</div></details>` : ""}
+    ${r.official ? `<details><summary>大学公表の${esc(r.official_type || "資料")}を見る</summary><div class="body">${esc(r.official)}</div></details>` : ""}
+    <div class="foot">${r.note ? `<span>${esc(r.note)}</span>` : ""}${links.join("")}<span class="id">${esc(r.id)}</span><button class="copy" type="button" data-id="${esc(r.id)}">問題文をコピー</button></div>
+  </article>`;
+}
+function more() {
+  const next = view.slice(shown, shown + PAGE);
+  $("#list").insertAdjacentHTML("beforeend", next.map(([, r]) => card(r, window._terms || [])).join(""));
+  shown += next.length;
+  $("#more").hidden = shown >= view.length;
+}
+function renderFields(counts, total) {
+  const btn = (key, label, n) => `<button type="button" data-f="${key}" aria-pressed="${field === key}"><span>${label}</span><span class="n">${n}</span></button>`;
+  $("#fields").innerHTML = btn("", "すべて", total) + FIELD_ORDER.map(f => btn(f, FIELD_LABEL[f], counts[f] || 0)).join("");
+}
+let ready = false;
+function start(data) {
+  INFO = data.info || {}; R = data.q || [];
+  for (const r of R) { r._kw = (r.keywords || []).map(norm); r._tx = norm(r.text); r._ot = norm((r.official || "") + (r.note || "") + (r.choices || "")); }
+  if (!ready) {
+    const univs = [...new Set(R.map(r => r.univ))].sort((a, b) => a.localeCompare(b, "ja"));
+    $("#univ").insertAdjacentHTML("beforeend", univs.map(u => `<option>${esc(u)}</option>`).join(""));
+    $("#qtype").insertAdjacentHTML("beforeend", [...new Set(R.map(r => r.qtype))].map(u => `<option>${esc(u)}</option>`).join(""));
+    $("#examples").insertAdjacentHTML("beforeend", EXAMPLES.map(e => `<button type="button">${esc(e)}</button>`).join(""));
+    ready = true;
+  }
+  $("#meta").innerHTML = `<span><b>${INFO.n_universities || "—"}</b> 大学</span><span><b>${R.length.toLocaleString()}</b> 問</span><span>うち大学公表の解答・出題意図つき <b>${(INFO.n_official || 0).toLocaleString()}</b> 問</span><span>最終更新 <b>${esc(INFO.updated || "")}</b></span>`;
+  $("#login").hidden = true; $("#app").hidden = false;
+  run();
+}
+document.addEventListener("click", e => {
+  const f = e.target.closest("[data-f]");
+  if (f) { field = f.dataset.f; run(); return; }
+  const ex = e.target.closest("#examples button");
+  if (ex) { $("#q").value = ex.textContent; run(); return; }
+  const c = e.target.closest(".copy");
+  if (c) {
+    const r = R.find(x => x.id === c.dataset.id); if (!r) return;
+    const txt = `【${r.univ} ${r.year} ${r.session} ${r.subject} ${r.qno}】\n${r.text}`;
+    const done = () => { c.textContent = "コピーしました"; setTimeout(() => c.textContent = "問題文をコピー", 1500); };
+    try { navigator.clipboard.writeText(txt).then(done, () => { c.textContent = "コピーできませんでした"; }); } catch { c.textContent = "コピーできませんでした"; }
+  }
+});
+$("#more").addEventListener("click", more);
+let timer; $("#q").addEventListener("input", () => { clearTimeout(timer); timer = setTimeout(run, 180); });
+["#qtype", "#univ", "#official"].forEach(s => $(s).addEventListener("change", run));
+
+/* ---------- 起動 ---------- */
+(async () => {
+  fetch("info.json", { cache: "no-cache" }).then(r => r.json()).then(i => {
+    $("#stats").innerHTML = `<span><b>${i.n_universities}</b> 大学</span><span><b>${Number(i.n_records).toLocaleString()}</b> 問</span><span>大学公表の解答・出題意図つき <b>${Number(i.n_official).toLocaleString()}</b> 問</span><span>最終更新 ${esc(i.updated)}</span>`;
+  }).catch(() => { $("#stats").hidden = true; });
+  if (!window.crypto?.subtle || typeof DecompressionStream === "undefined") {
+    $("#err").textContent = "このブラウザでは開けません。最新の Chrome・Safari・Edge・Firefox でアクセスしてください。";
+    $("#enter").disabled = true; return;
+  }
+  if (!(await tryStoredKey())) $("#pw").focus();
+})();
+</script>
+</body>
+</html>
